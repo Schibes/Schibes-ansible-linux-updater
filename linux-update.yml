@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: install updates for Debian, Ubuntu, Mint
+      apt: upgrade=dist update_cache=yes
+      when: ansible_pkg_mgr == 'apt'
+    - name: install updates for CentOS and RHEL 7
+      yum: name=* state=latest update_cache=yes
+      when: ansible_pkg_mgr == 'yum'
+    - name: install updates for Fedora and RHEL 8
+      dnf: name=* state=latest update_cache=yes
+      when: ansible_pkg_mgr == 'dnf'
+    - name: install updates for Arch and Manjaro
+      pacman: upgrade=yes update_cache=yes
+      when: ansible_pkg_mgr == 'pacman'
+...
